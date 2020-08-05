@@ -116,7 +116,7 @@ plot_2 <- energy_types %>%
   coord_flip() +
   scale_y_continuous(expand = c(0,0)) +
   scale_fill_manual(values = color_pal)+theme+
-  labs(x = "Year", y = "Percent Energy Produced",
+  labs(x = "", y = "Percent Energy Produced",
        fill = "",
        title = "Percent energy production by European countries",
        caption = "#tidytuesday 
