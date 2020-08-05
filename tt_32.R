@@ -77,7 +77,7 @@ theme <- theme_minimal()+
         plot.margin = unit(c(2, 2, 2, 2), "cm"),
         plot.title = element_text(size = 50, face = "bold", hjust = 0.5),
         plot.caption = element_text(color = "black", size = 30),
-        legend.position = c(0.90, .025),
+        legend.position = "bottom",
         legend.title = element_text(size = 30),
         legend.text = element_text(size = 27))
 
@@ -101,5 +101,29 @@ plot <- energy_types %>%
 # saving the plot ---------------------------------------------------------
 
 ggsave(filename =  "tt_32.png",plot, units = c("in"), width = 30,height = 23 ,dpi = 300)
-  
+
+# PLOT 2 ------------------------------------------------------------------
+
+plot_2 <- energy_types %>%
+  group_by(Total_energy) %>%
+  top_n(10) %>%
+  ungroup %>%
+  mutate(year = as.factor(year),
+         country_name = fct_reorder(country_name, percent)) %>%
+  ggplot(aes(country_name, percent, fill = type)) +
+  geom_col(show.legend = TRUE) +
+  facet_wrap(~year, scales = "free_y") +
+  coord_flip() +
+  scale_y_continuous(expand = c(0,0)) +
+  scale_fill_manual(values = color_pal)+theme+
+  labs(x = "Year", y = "Percent Energy Produced",
+       fill = "",
+       title = "Percent energy production by European countries",
+       caption = "#tidytuesday 
+               Data source:Eurostat
+               By:Netra Bhandari")
+
+
+ggsave(filename =  "tt_32_ordered.png",plot_2, units = c("in"), width = 30,height = 23 ,dpi = 300)
+
 
